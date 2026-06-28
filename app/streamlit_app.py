@@ -558,6 +558,11 @@ if submitted:
         risk_color = "#f59e0b"
     else:
         risk_color = "#ef4444"
+    cutoff_status = (
+        "Di bawah batas"
+        if result["pd_calibrated"] < result["recommended_pd_cutoff"]
+        else "Di atas batas"
+    )
     reason_html = "".join(
         f'<div class="reason-chip">● {escape(reason)}</div>'
         for reason in result["reason_codes"]
@@ -589,10 +594,10 @@ if submitted:
             <div class="result-detail-card">
                 <div class="mini-panel-title">Ringkasan Keputusan</div>
                 <div class="detail-list">
-                    <div class="detail-item"><span>Skor risiko LightGBM</span><span class="detail-value">{pct(result["pd_lgbm"])}</span></div>
-                    <div class="detail-item"><span>Skor risiko Logistic Regression</span><span class="detail-value">{pct(result["pd_logreg"])}</span></div>
-                    <div class="detail-item"><span>Porsi kontribusi LightGBM</span><span class="detail-value">{artifacts.ensemble_weight_lgbm:.2f}</span></div>
-                    <div class="detail-item"><span>Batas risiko untuk approve</span><span class="detail-value">{pct(result["recommended_pd_cutoff"])}</span></div>
+                    <div class="detail-item"><span>Estimasi risiko gagal bayar</span><span class="detail-value">{pct(result["pd_calibrated"])}</span></div>
+                    <div class="detail-item"><span>Kategori risiko applicant</span><span class="detail-value">{result["risk_band"]}</span></div>
+                    <div class="detail-item"><span>Rekomendasi keputusan</span><span class="detail-value">{result["business_decision"]}</span></div>
+                    <div class="detail-item"><span>Status terhadap batas approve</span><span class="detail-value">{cutoff_status}</span></div>
                 </div>
             </div>
         </div>
