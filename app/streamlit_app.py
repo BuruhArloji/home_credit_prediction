@@ -607,36 +607,6 @@ if submitted:
     )
     st.markdown(
         f"""
-        <div class="score-grid">
-            <div class="score-card">
-                <div class="score-label">Estimasi Risiko Gagal Bayar</div>
-                <div class="score-value">{pct(result["pd_calibrated"])}</div>
-                <div class="score-help">Probabilitas setelah kalibrasi</div>
-            </div>
-            <div class="score-card">
-                <div class="score-label">Kategori Risiko</div>
-                <div class="score-value">{result["risk_band"]}</div>
-                <div class="score-help">Segmentasi risiko applicant</div>
-            </div>
-            <div class="score-card">
-                <div class="score-label">Rekomendasi Keputusan</div>
-                <div class="score-value">{result["business_decision"]}</div>
-                <div class="score-help">Berdasarkan cutoff bisnis</div>
-            </div>
-            <div class="score-card">
-                <div class="score-label">Skor Risiko Awal Model</div>
-                <div class="score-value">{pct(result["pd_raw"])}</div>
-                <div class="score-help">Sebelum kalibrasi isotonic</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.progress(min(result["pd_calibrated"], 1.0), text="Estimasi peluang gagal bayar")
-
-    st.markdown(
-        f"""
         <div class="result-detail-card" style="margin-top:1rem">
             <div class="mini-panel-title">Alasan Utama</div>
             {reason_html}
