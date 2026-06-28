@@ -11,6 +11,60 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown(
+    """
+    <style>
+    .score-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 1rem 0 1.2rem 0;
+    }
+    .score-card {
+        border: 1px solid #e6e8ef;
+        border-radius: 18px;
+        padding: 1rem 1.05rem;
+        background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+        min-height: 132px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+    .score-label {
+        color: #5d6472;
+        font-size: 0.92rem;
+        line-height: 1.25;
+        margin-bottom: 0.55rem;
+        font-weight: 600;
+    }
+    .score-value {
+        color: #2d3140;
+        font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+        line-height: 1.05;
+        font-weight: 650;
+        letter-spacing: -0.03em;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+    .score-help {
+        color: #7a8190;
+        font-size: 0.82rem;
+        line-height: 1.3;
+        margin-top: 0.65rem;
+    }
+    @media (max-width: 980px) {
+        .score-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+    @media (max-width: 620px) {
+        .score-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 @st.cache_resource(show_spinner=False)
 def cached_artifacts():
@@ -136,11 +190,33 @@ if submitted:
 
     st.divider()
     st.subheader("Hasil Scoring")
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Estimasi Risiko Gagal Bayar", pct(result["pd_calibrated"]))
-    m2.metric("Kategori Risiko", result["risk_band"])
-    m3.metric("Rekomendasi Keputusan", result["business_decision"])
-    m4.metric("Skor Risiko Awal Model", pct(result["pd_raw"]))
+    st.markdown(
+        f"""
+        <div class="score-grid">
+            <div class="score-card">
+                <div class="score-label">Estimasi Risiko Gagal Bayar</div>
+                <div class="score-value">{pct(result["pd_calibrated"])}</div>
+                <div class="score-help">Probabilitas setelah kalibrasi</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Kategori Risiko</div>
+                <div class="score-value">{result["risk_band"]}</div>
+                <div class="score-help">Segmentasi risiko applicant</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Rekomendasi Keputusan</div>
+                <div class="score-value">{result["business_decision"]}</div>
+                <div class="score-help">Berdasarkan cutoff bisnis</div>
+            </div>
+            <div class="score-card">
+                <div class="score-label">Skor Risiko Awal Model</div>
+                <div class="score-value">{pct(result["pd_raw"])}</div>
+                <div class="score-help">Sebelum kalibrasi isotonic</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.progress(min(result["pd_calibrated"], 1.0), text="Estimasi peluang gagal bayar")
 
