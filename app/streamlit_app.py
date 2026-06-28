@@ -409,7 +409,7 @@ st.markdown(
             <div class="mini-panel-title">Model Snapshot</div>
             <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>LightGBM</span><strong>70%</strong></div>
             <div class="mix-row"><span><span class="dot" style="background:#4592ff"></span>Logistic Regression</span><strong>30%</strong></div>
-            <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Calibrated PD</span><strong>Isotonic</strong></div>
+            <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Calibration</span><strong>Isotonic</strong></div>
             <div class="mix-row"><span><span class="dot" style="background:#ff8a3d"></span>Decision cutoff</span><strong>8.00%</strong></div>
         </div>
     </div>
