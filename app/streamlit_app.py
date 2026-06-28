@@ -248,6 +248,7 @@ st.markdown(
     }
 
     .gauge-ring {
+        position: relative;
         width: 210px;
         height: 210px;
         border-radius: 50%;
@@ -256,8 +257,27 @@ st.markdown(
         margin: 1rem auto 1.2rem auto;
         background:
             radial-gradient(circle at center, #ffffff 0 55%, transparent 56%),
-            conic-gradient(var(--violet) 0 var(--risk-angle), var(--blue) var(--risk-angle) 78%, #edf0f6 78% 100%);
+            conic-gradient(var(--risk-color) 0 var(--risk-angle), #edf0f6 var(--risk-angle) 100%);
         box-shadow: 0 20px 42px rgba(97, 71, 255, 0.18);
+    }
+
+    .gauge-ring:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background:
+            conic-gradient(
+                transparent 0 calc(var(--low-marker) - 0.35deg),
+                rgba(34, 197, 94, 0.95) calc(var(--low-marker) - 0.35deg) calc(var(--low-marker) + 0.35deg),
+                transparent calc(var(--low-marker) + 0.35deg) calc(var(--moderate-marker) - 0.35deg),
+                rgba(245, 158, 11, 0.95) calc(var(--moderate-marker) - 0.35deg) calc(var(--moderate-marker) + 0.35deg),
+                transparent calc(var(--moderate-marker) + 0.35deg) calc(var(--high-marker) - 0.35deg),
+                rgba(239, 68, 68, 0.95) calc(var(--high-marker) - 0.35deg) calc(var(--high-marker) + 0.35deg),
+                transparent calc(var(--high-marker) + 0.35deg) 360deg
+            );
+        mask: radial-gradient(circle at center, transparent 0 53%, #000 54% 74%, transparent 75% 100%);
+        pointer-events: none;
     }
 
     .gauge-inner {
@@ -277,6 +297,23 @@ st.markdown(
         font-size: 0.9rem;
         font-weight: 800;
         margin-top: 0.2rem;
+    }
+
+    .gauge-scale {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.45rem;
+        margin: 0.2rem 0 1rem 0;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .scale-pill {
+        border-radius: 999px;
+        padding: 0.35rem 0.45rem;
+        background: #f6f7ff;
     }
 
     .section-title {
@@ -493,7 +530,20 @@ if submitted:
     }
 
     result = predict_credit_risk(user_input, artifacts)
-    risk_angle = f"{min(max(result['pd_calibrated'] * 420, 8), 78):.1f}%"
+    gauge_max_pd = 0.20
+    pd_ratio = min(max(result["pd_calibrated"] / gauge_max_pd, 0), 1)
+    risk_angle = f"{pd_ratio * 360:.1f}deg"
+    low_marker = f"{0.03 / gauge_max_pd * 360:.1f}deg"
+    moderate_marker = f"{0.08 / gauge_max_pd * 360:.1f}deg"
+    high_marker = f"{0.15 / gauge_max_pd * 360:.1f}deg"
+    if result["pd_calibrated"] < 0.03:
+        risk_color = "#22c55e"
+    elif result["pd_calibrated"] < 0.08:
+        risk_color = "#6147ff"
+    elif result["pd_calibrated"] < 0.15:
+        risk_color = "#f59e0b"
+    else:
+        risk_color = "#ef4444"
     reason_html = "".join(
         f'<div class="reason-chip">● {escape(reason)}</div>'
         for reason in result["reason_codes"]
@@ -506,12 +556,19 @@ if submitted:
         <div class="result-shell">
             <div class="credit-gauge-card">
                 <div class="mini-panel-title">Credit Report</div>
-                <div class="gauge-ring" style="--risk-angle:{risk_angle}">
+                <div class="gauge-ring" style="--risk-angle:{risk_angle};--risk-color:{risk_color};--low-marker:{low_marker};--moderate-marker:{moderate_marker};--high-marker:{high_marker}">
                     <div class="gauge-inner">
                         <div class="gauge-value">{pct(result["pd_calibrated"])}</div>
-                        <div class="gauge-caption">{result["risk_band"]}</div>
+                        <div class="gauge-caption" style="color:{risk_color}">{result["risk_band"]}</div>
                     </div>
                 </div>
+                <div class="gauge-scale">
+                    <div class="scale-pill">0%</div>
+                    <div class="scale-pill">3%</div>
+                    <div class="scale-pill">8%</div>
+                    <div class="scale-pill">15%+</div>
+                </div>
+                <div class="score-help" style="text-align:center;margin-bottom:0.7rem">Skala ring: 0-20% estimasi gagal bayar</div>
                 <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>Estimasi gagal bayar</span><strong>{pct(result["pd_calibrated"])}</strong></div>
                 <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Rekomendasi</span><strong>{result["business_decision"]}</strong></div>
             </div>
