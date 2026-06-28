@@ -1,0 +1,4 @@
+artifacts/model_artifacts/df_model_final.pkl
+*.parquet
+*.feather
+*.csv

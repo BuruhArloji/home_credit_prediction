@@ -1,0 +1,14 @@
+outputs/
+work/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+Thumbs.db
+.env
+.venv/
+venv/
+df_model_final.pkl
+*.bak
