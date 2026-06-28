@@ -155,7 +155,6 @@ st.markdown(
     button[data-testid="stBaseButton-secondaryFormSubmit"] p {
         font-size: 1.48rem !important;
         font-weight: 900 !important;
-        letter-spacing: -0.02em;
     }
 
     div[data-testid="stButton"] button:hover,
