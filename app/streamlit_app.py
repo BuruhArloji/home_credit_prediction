@@ -266,7 +266,7 @@ st.markdown(
 
     .gauge-value {
         color: var(--ink);
-        font-size: 3rem;
+        font-size: clamp(2.3rem, 4vw, 3rem);
         font-weight: 800;
         letter-spacing: -0.06em;
         line-height: 1;
@@ -493,7 +493,6 @@ if submitted:
     }
 
     result = predict_credit_risk(user_input, artifacts)
-    credit_score = int(max(300, min(850, round(850 - result["pd_calibrated"] * 2500))))
     risk_angle = f"{min(max(result['pd_calibrated'] * 420, 8), 78):.1f}%"
     reason_html = "".join(
         f'<div class="reason-chip">● {escape(reason)}</div>'
@@ -509,7 +508,7 @@ if submitted:
                 <div class="mini-panel-title">Credit Report</div>
                 <div class="gauge-ring" style="--risk-angle:{risk_angle}">
                     <div class="gauge-inner">
-                        <div class="gauge-value">{credit_score}</div>
+                        <div class="gauge-value">{pct(result["pd_calibrated"])}</div>
                         <div class="gauge-caption">{result["risk_band"]}</div>
                     </div>
                 </div>
