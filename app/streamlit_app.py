@@ -77,7 +77,7 @@ def pct(value: float) -> str:
 
 st.title("Home Credit Risk Scoring Demo")
 st.caption(
-    "Portfolio product demo berbasis model V4. Aplikasi ini bersifat decision-support, "
+    "Portfolio product demo berbasis Machine Learning. Aplikasi ini bersifat decision-support, "
     "bukan sistem persetujuan kredit otomatis."
 )
 
