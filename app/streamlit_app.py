@@ -108,6 +108,37 @@ st.markdown(
         backdrop-filter: blur(12px);
     }
 
+    .input-section-card {
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(226, 230, 244, 0.9);
+        border-radius: 24px;
+        padding: 1.2rem 1.2rem 1.35rem 1.2rem;
+        margin: 1rem 0 1.1rem 0;
+        box-shadow: 0 14px 34px rgba(37, 44, 92, 0.08);
+    }
+
+    .input-section-title {
+        color: var(--ink);
+        font-size: 1.18rem;
+        font-weight: 800;
+        letter-spacing: -0.035em;
+        margin-bottom: 0.15rem;
+    }
+
+    .input-section-subtitle {
+        color: var(--muted);
+        font-size: 0.86rem;
+        margin-bottom: 0.85rem;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 24px !important;
+        border-color: rgba(226, 230, 244, 0.95) !important;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 14px 34px rgba(37, 44, 92, 0.07);
+        margin-bottom: 1.1rem;
+    }
+
     div[data-testid="stButton"] button {
         border: 0;
         border-radius: 999px;
@@ -471,97 +502,103 @@ st.sidebar.caption(
 )
 
 with st.form("credit_application_form"):
-    st.subheader("1. Profil Calon Debitur")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        age = st.slider("Usia", 18, 70, 35)
-        gender = st.selectbox("Gender", ["F", "M"])
-        income_idr = rupiah_text(
-            "Pendapatan tahunan (Rp)",
-            value=90_000_000,
-            help_text="Contoh format: 90.000.000",
-        )
-        children = st.number_input("Jumlah anak", min_value=0, max_value=10, value=0, step=1)
-    with col2:
-        education = st.selectbox(
-            "Pendidikan",
-            [
-                "Secondary / secondary special",
-                "Higher education",
-                "Incomplete higher",
-                "Lower secondary",
-                "Academic degree",
-            ],
-        )
-        family_status = st.selectbox(
-            "Status keluarga",
-            ["Married", "Single / not married", "Civil marriage", "Separated", "Widow"],
-        )
-        housing = st.selectbox(
-            "Tipe tempat tinggal",
-            ["House / apartment", "With parents", "Municipal apartment", "Rented apartment", "Office apartment"],
-        )
-        employment_years = st.slider("Lama bekerja (tahun)", 0.0, 40.0, 5.0, 0.5)
-    with col3:
-        own_car = st.selectbox("Punya mobil?", ["N", "Y"])
-        own_realty = st.selectbox("Punya properti?", ["Y", "N"])
-        income_type = st.selectbox("Tipe pendapatan", ["Working", "Commercial associate", "Pensioner", "State servant"])
-        occupation = st.selectbox("Pekerjaan", ["Laborers", "Sales staff", "Core staff", "Managers", "Drivers", "High skill tech staff"])
+    with st.container(border=True):
+        st.markdown("### 1. Profil Calon Debitur")
+        st.caption("Informasi dasar applicant yang digunakan untuk membaca kapasitas dan stabilitas finansial.")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            age = st.slider("Usia", 18, 70, 35)
+            gender = st.selectbox("Gender", ["F", "M"])
+            income_idr = rupiah_text(
+                "Pendapatan tahunan (Rp)",
+                value=90_000_000,
+                help_text="Contoh format: 90.000.000",
+            )
+            children = st.number_input("Jumlah anak", min_value=0, max_value=10, value=0, step=1)
+        with col2:
+            education = st.selectbox(
+                "Pendidikan",
+                [
+                    "Secondary / secondary special",
+                    "Higher education",
+                    "Incomplete higher",
+                    "Lower secondary",
+                    "Academic degree",
+                ],
+            )
+            family_status = st.selectbox(
+                "Status keluarga",
+                ["Married", "Single / not married", "Civil marriage", "Separated", "Widow"],
+            )
+            housing = st.selectbox(
+                "Tipe tempat tinggal",
+                ["House / apartment", "With parents", "Municipal apartment", "Rented apartment", "Office apartment"],
+            )
+            employment_years = st.slider("Lama bekerja (tahun)", 0.0, 40.0, 5.0, 0.5)
+        with col3:
+            own_car = st.selectbox("Punya mobil?", ["N", "Y"])
+            own_realty = st.selectbox("Punya properti?", ["Y", "N"])
+            income_type = st.selectbox("Tipe pendapatan", ["Working", "Commercial associate", "Pensioner", "State servant"])
+            occupation = st.selectbox("Pekerjaan", ["Laborers", "Sales staff", "Core staff", "Managers", "Drivers", "High skill tech staff"])
 
-    st.subheader("2. Detail Pinjaman")
-    col4, col5, col6 = st.columns(3)
-    with col4:
-        contract_type = st.selectbox("Tipe kontrak", ["Cash loans", "Revolving loans"])
-        credit_idr = rupiah_text(
-            "Jumlah kredit (Rp)",
-            value=300_000_000,
-            help_text="Contoh format: 300.000.000",
-        )
-    with col5:
-        annuity_idr = rupiah_text(
-            "Anuitas / cicilan tahunan (Rp)",
-            value=15_000_000,
-            help_text="Contoh format: 15.000.000",
-        )
-        goods_price_idr = rupiah_text(
-            "Harga barang (Rp)",
-            value=300_000_000,
-            help_text="Contoh format: 300.000.000",
-        )
-    with col6:
-        ext_source_1 = st.slider(
-            "Skor eksternal profil kredit",
-            0.0,
-            1.0,
-            0.50,
-            0.01,
-            help="Skor dari sumber data eksternal. Makin tinggi biasanya menunjukkan profil risiko yang lebih baik.",
-        )
-        ext_source_2 = st.slider(
-            "Skor eksternal perilaku finansial",
-            0.0,
-            1.0,
-            0.50,
-            0.01,
-            help="Ringkasan sinyal finansial eksternal. Nilai rendah dapat meningkatkan estimasi risiko gagal bayar.",
-        )
-        ext_source_3 = st.slider(
-            "Skor eksternal stabilitas pembayaran",
-            0.0,
-            1.0,
-            0.50,
-            0.01,
-            help="Proxy stabilitas/kelayakan dari sumber eksternal. Makin tinggi biasanya lebih aman.",
-        )
+    with st.container(border=True):
+        st.markdown("### 2. Detail Pinjaman")
+        st.caption("Nominal pinjaman dan skor eksternal yang mempengaruhi estimasi risiko gagal bayar.")
+        col4, col5, col6 = st.columns(3)
+        with col4:
+            contract_type = st.selectbox("Tipe kontrak", ["Cash loans", "Revolving loans"])
+            credit_idr = rupiah_text(
+                "Jumlah kredit (Rp)",
+                value=300_000_000,
+                help_text="Contoh format: 300.000.000",
+            )
+        with col5:
+            annuity_idr = rupiah_text(
+                "Anuitas / cicilan tahunan (Rp)",
+                value=15_000_000,
+                help_text="Contoh format: 15.000.000",
+            )
+            goods_price_idr = rupiah_text(
+                "Harga barang (Rp)",
+                value=300_000_000,
+                help_text="Contoh format: 300.000.000",
+            )
+        with col6:
+            ext_source_1 = st.slider(
+                "Skor eksternal profil kredit",
+                0.0,
+                1.0,
+                0.50,
+                0.01,
+                help="Skor dari sumber data eksternal. Makin tinggi biasanya menunjukkan profil risiko yang lebih baik.",
+            )
+            ext_source_2 = st.slider(
+                "Skor eksternal perilaku finansial",
+                0.0,
+                1.0,
+                0.50,
+                0.01,
+                help="Ringkasan sinyal finansial eksternal. Nilai rendah dapat meningkatkan estimasi risiko gagal bayar.",
+            )
+            ext_source_3 = st.slider(
+                "Skor eksternal stabilitas pembayaran",
+                0.0,
+                1.0,
+                0.50,
+                0.01,
+                help="Proxy stabilitas/kelayakan dari sumber eksternal. Makin tinggi biasanya lebih aman.",
+            )
 
-    st.subheader("3. Ringkasan Histori Kredit")
-    col7, col8, col9 = st.columns(3)
-    with col7:
-        overdue_days = st.number_input("Maksimum hari overdue historis", min_value=0, max_value=365, value=0, step=1)
-    with col8:
-        late_payment_rate = st.slider("Rasio pembayaran terlambat", 0.0, 1.0, 0.00, 0.01)
-    with col9:
-        cc_utilization = st.slider("Utilization kartu kredit", 0.0, 1.5, 0.35, 0.01)
+    with st.container(border=True):
+        st.markdown("### 3. Ringkasan Histori Kredit")
+        st.caption("Sinyal sederhana dari histori keterlambatan, pola pembayaran, dan pemakaian kartu kredit.")
+        col7, col8, col9 = st.columns(3)
+        with col7:
+            overdue_days = st.number_input("Maksimum hari overdue historis", min_value=0, max_value=365, value=0, step=1)
+        with col8:
+            late_payment_rate = st.slider("Rasio pembayaran terlambat", 0.0, 1.0, 0.00, 0.01)
+        with col9:
+            cc_utilization = st.slider("Utilization kartu kredit", 0.0, 1.5, 0.35, 0.01)
 
     submitted = st.form_submit_button("Hitung Risiko Kredit", use_container_width=True)
 
