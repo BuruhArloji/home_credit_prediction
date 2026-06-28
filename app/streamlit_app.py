@@ -137,12 +137,12 @@ if submitted:
     st.divider()
     st.subheader("Hasil Scoring")
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("PD calibrated", pct(result["pd_calibrated"]))
-    m2.metric("Risk band", result["risk_band"])
-    m3.metric("Business decision", result["business_decision"])
-    m4.metric("Raw ensemble PD", pct(result["pd_raw"]))
+    m1.metric("Estimasi Risiko Gagal Bayar", pct(result["pd_calibrated"]))
+    m2.metric("Kategori Risiko", result["risk_band"])
+    m3.metric("Rekomendasi Keputusan", result["business_decision"])
+    m4.metric("Skor Risiko Awal Model", pct(result["pd_raw"]))
 
-    st.progress(min(result["pd_calibrated"], 1.0), text="Estimated probability of default")
+    st.progress(min(result["pd_calibrated"], 1.0), text="Estimasi peluang gagal bayar")
 
     left, right = st.columns([1.1, 0.9])
     with left:
@@ -150,11 +150,11 @@ if submitted:
         for reason in result["reason_codes"]:
             st.write(f"- {reason}")
     with right:
-        st.markdown("#### Detail Model")
-        st.write(f"- LightGBM PD: `{pct(result['pd_lgbm'])}`")
-        st.write(f"- Logistic Regression PD: `{pct(result['pd_logreg'])}`")
-        st.write(f"- Ensemble weight LightGBM: `{artifacts.ensemble_weight_lgbm:.2f}`")
-        st.write(f"- Recommended business cutoff: `{pct(result['recommended_pd_cutoff'])}`")
+        st.markdown("#### Detail Perhitungan")
+        st.write(f"- Skor risiko dari LightGBM: `{pct(result['pd_lgbm'])}`")
+        st.write(f"- Skor risiko dari Logistic Regression: `{pct(result['pd_logreg'])}`")
+        st.write(f"- Porsi kontribusi LightGBM: `{artifacts.ensemble_weight_lgbm:.2f}`")
+        st.write(f"- Batas risiko untuk approve: `{pct(result['recommended_pd_cutoff'])}`")
 
     with st.expander("Lihat fitur yang dikirim ke model"):
         non_zero = result["feature_frame"].T.reset_index()

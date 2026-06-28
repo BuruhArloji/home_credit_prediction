@@ -136,20 +136,20 @@ def predict_credit_risk(user_input: dict[str, Any], artifacts: CreditRiskArtifac
 
 def decision_from_pd(pd_value: float, cutoff: float) -> str:
     if pd_value < cutoff * 0.75:
-        return "Approve"
+        return "Disetujui"
     if pd_value < cutoff * 1.35:
-        return "Manual Review"
-    return "Reject / High-Risk Review"
+        return "Perlu Review Manual"
+    return "Tidak Disarankan / Review Risiko Tinggi"
 
 
 def risk_band(pd_value: float) -> str:
     if pd_value < 0.03:
-        return "Low Risk"
+        return "Risiko Rendah"
     if pd_value < 0.08:
-        return "Moderate Risk"
+        return "Risiko Sedang"
     if pd_value < 0.15:
-        return "High Risk"
-    return "Very High Risk"
+        return "Risiko Tinggi"
+    return "Risiko Sangat Tinggi"
 
 
 def reason_codes(user_input: dict[str, Any]) -> list[str]:
