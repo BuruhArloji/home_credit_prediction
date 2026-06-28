@@ -447,6 +447,22 @@ st.sidebar.success(f"Artifact aktif: {artifacts.artifact_dir}")
 st.sidebar.metric("Jumlah fitur model", f"{len(artifacts.feature_names):,}")
 st.sidebar.metric("PD cutoff bisnis", pct(artifacts.recommended_pd_cutoff))
 st.sidebar.metric("Threshold model", f"{artifacts.model_threshold:.2f}")
+st.sidebar.divider()
+st.sidebar.markdown("### Konversi Rupiah")
+idr_per_dataset_unit = st.sidebar.number_input(
+    "Rp per 1 unit dataset",
+    min_value=1,
+    max_value=10_000,
+    value=500,
+    step=50,
+    help=(
+        "Mata uang asli dataset Home Credit tidak dipublikasikan eksplisit. "
+        "Nilai ini dipakai untuk mengubah input Rupiah ke skala nominal yang dikenal model."
+    ),
+)
+st.sidebar.caption(
+    "Contoh: Rp500/unit berarti Rp90.000.000 akan dikirim ke model sebagai 180.000 unit dataset."
+)
 
 with st.form("credit_application_form"):
     st.subheader("1. Profil Calon Debitur")
@@ -454,7 +470,13 @@ with st.form("credit_application_form"):
     with col1:
         age = st.slider("Usia", 18, 70, 35)
         gender = st.selectbox("Gender", ["F", "M"])
-        income = st.number_input("Pendapatan tahunan", min_value=10_000, max_value=5_000_000, value=180_000, step=10_000)
+        income_idr = st.number_input(
+            "Pendapatan tahunan (Rp)",
+            min_value=1_000_000,
+            max_value=5_000_000_000,
+            value=90_000_000,
+            step=5_000_000,
+        )
         children = st.number_input("Jumlah anak", min_value=0, max_value=10, value=0, step=1)
     with col2:
         education = st.selectbox(
@@ -486,10 +508,28 @@ with st.form("credit_application_form"):
     col4, col5, col6 = st.columns(3)
     with col4:
         contract_type = st.selectbox("Tipe kontrak", ["Cash loans", "Revolving loans"])
-        credit = st.number_input("Jumlah kredit", min_value=10_000, max_value=5_000_000, value=600_000, step=10_000)
+        credit_idr = st.number_input(
+            "Jumlah kredit (Rp)",
+            min_value=1_000_000,
+            max_value=5_000_000_000,
+            value=300_000_000,
+            step=5_000_000,
+        )
     with col5:
-        annuity = st.number_input("Anuitas / cicilan tahunan", min_value=1_000, max_value=1_000_000, value=30_000, step=1_000)
-        goods_price = st.number_input("Harga barang", min_value=10_000, max_value=5_000_000, value=600_000, step=10_000)
+        annuity_idr = st.number_input(
+            "Anuitas / cicilan tahunan (Rp)",
+            min_value=100_000,
+            max_value=1_000_000_000,
+            value=15_000_000,
+            step=1_000_000,
+        )
+        goods_price_idr = st.number_input(
+            "Harga barang (Rp)",
+            min_value=1_000_000,
+            max_value=5_000_000_000,
+            value=300_000_000,
+            step=5_000_000,
+        )
     with col6:
         ext_source_1 = st.slider(
             "Skor eksternal profil kredit",
@@ -528,6 +568,11 @@ with st.form("credit_application_form"):
     submitted = st.form_submit_button("Hitung Risiko Kredit", use_container_width=True)
 
 if submitted:
+    income = income_idr / idr_per_dataset_unit
+    credit = credit_idr / idr_per_dataset_unit
+    annuity = annuity_idr / idr_per_dataset_unit
+    goods_price = goods_price_idr / idr_per_dataset_unit
+
     user_input = {
         "AGE_YEARS": age,
         "CODE_GENDER": gender,
@@ -616,6 +661,11 @@ if submitted:
         </div>
         """,
         unsafe_allow_html=True,
+    )
+
+    st.caption(
+        f"Catatan konversi: input nominal Rupiah dikonversi ke skala model dengan asumsi "
+        f"Rp{idr_per_dataset_unit:,.0f} = 1 unit dataset."
     )
 
     with st.expander("Lihat fitur yang dikirim ke model"):
