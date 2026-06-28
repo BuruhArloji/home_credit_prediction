@@ -163,9 +163,9 @@ st.markdown(
         color: var(--ink);
         font-family: 'Space Grotesk', 'Manrope', sans-serif;
         font-size: clamp(2.35rem, 5vw, 4.25rem);
-        line-height: 0.94;
+        line-height: 1.04;
         font-weight: 700;
-        letter-spacing: -0.055em;
+        letter-spacing: -0.035em;
         margin: 0;
         max-width: 760px;
     }
@@ -330,8 +330,8 @@ st.markdown(
         color: var(--ink);
         font-size: clamp(2.3rem, 4vw, 3rem);
         font-weight: 800;
-        letter-spacing: -0.06em;
-        line-height: 1;
+        letter-spacing: -0.035em;
+        line-height: 1.08;
     }
 
     .gauge-caption {
