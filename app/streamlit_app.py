@@ -408,10 +408,9 @@ st.markdown(
     """
     <div class="hero-card">
         <div class="hero-main">
-            <div class="hero-kicker">Credit Risk Product Demo</div>
-            <h1 class="hero-title">Home Credit<br/>Risk Scoring</h1>
+            <h1 class="hero-title">Credit<br/>Risk Scoring</h1>
             <div class="hero-copy">
-                Simulasi scoring calon debitur berbasis model V4. Isi profil calon kreditur,
+                Simulasi scoring calon debitur berbasis Machine Learning. Isi profil calon kreditur,
                 sistem akan menghitung estimasi risiko gagal bayar, kategori risiko,
                 dan rekomendasi keputusan bisnis.
             </div>
