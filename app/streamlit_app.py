@@ -86,7 +86,7 @@ st.markdown(
     }
 
     .block-container {
-        padding-top: 2.1rem;
+        padding-top: 4.1rem;
         padding-bottom: 2.4rem;
         max-width: 1240px;
     }
@@ -133,17 +133,6 @@ st.markdown(
         padding: 2rem;
         background: #ffffff;
         box-shadow: 0 24px 70px rgba(37, 44, 92, 0.13);
-    }
-
-    .hero-main:after {
-        content: "";
-        position: absolute;
-        right: -5rem;
-        top: -5rem;
-        width: 16rem;
-        height: 16rem;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(97, 71, 255, 0.18), transparent 68%);
     }
 
     .hero-kicker {
@@ -627,12 +616,40 @@ if submitted:
         if result["pd_calibrated"] < result["recommended_pd_cutoff"]
         else "Di atas batas"
     )
+    if "Disetujui" in result["business_decision"]:
+        app_bg = (
+            "radial-gradient(circle at 8% 0%, rgba(34, 197, 94, 0.18), transparent 24rem),"
+            "radial-gradient(circle at 100% 12%, rgba(16, 185, 129, 0.14), transparent 28rem),"
+            "linear-gradient(135deg, #f3fff8 0%, #e9fbf1 42%, #f8fffb 100%)"
+        )
+    elif "Review Manual" in result["business_decision"]:
+        app_bg = (
+            "radial-gradient(circle at 8% 0%, rgba(245, 158, 11, 0.18), transparent 24rem),"
+            "radial-gradient(circle at 100% 12%, rgba(251, 191, 36, 0.14), transparent 28rem),"
+            "linear-gradient(135deg, #fffaf0 0%, #fff3d8 42%, #fffdf7 100%)"
+        )
+    else:
+        app_bg = (
+            "radial-gradient(circle at 8% 0%, rgba(239, 68, 68, 0.18), transparent 24rem),"
+            "radial-gradient(circle at 100% 12%, rgba(248, 113, 113, 0.14), transparent 28rem),"
+            "linear-gradient(135deg, #fff5f5 0%, #ffe9e9 42%, #fffafa 100%)"
+        )
     reason_html = "".join(
         f'<div class="reason-chip">● {escape(reason)}</div>'
         for reason in result["reason_codes"]
     )
 
     st.divider()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: {app_bg};
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown('<div class="section-title">Hasil Scoring</div>', unsafe_allow_html=True)
     st.markdown(
         f"""
