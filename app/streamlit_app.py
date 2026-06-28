@@ -247,6 +247,12 @@ st.markdown(
         box-shadow: 0 22px 56px rgba(37, 44, 92, 0.12);
     }
 
+    .credit-gauge-card {
+        overflow: visible;
+        padding-left: 2.4rem;
+        padding-right: 2.4rem;
+    }
+
     .gauge-ring {
         position: relative;
         width: 210px;
@@ -304,18 +310,18 @@ st.markdown(
     }
 
     .threshold-low {
-        top: 14%;
-        right: -0.35rem;
+        top: 9%;
+        right: -2.35rem;
     }
 
     .threshold-approve {
-        right: 0.3rem;
-        bottom: 12%;
+        right: -2.55rem;
+        bottom: 8%;
     }
 
     .threshold-high {
-        left: -0.55rem;
-        top: 44%;
+        left: -2.75rem;
+        top: 43%;
     }
 
     .gauge-inner {
