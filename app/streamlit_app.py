@@ -6,7 +6,7 @@ from model_utils import find_artifact_dir, load_artifacts, predict_credit_risk
 
 
 st.set_page_config(
-    page_title="Home Credit Risk Scoring Demo",
+    page_title="Credit Risk Scoring Demo",
     page_icon="🏦",
     layout="wide",
 )
