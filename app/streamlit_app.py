@@ -123,7 +123,7 @@ st.markdown(
         grid-template-columns: 1.35fr 0.65fr;
         gap: 1.2rem;
         align-items: stretch;
-        margin-bottom: 1.25rem;
+        margin-bottom: 2.2rem;
     }
 
     .hero-main {
@@ -408,7 +408,7 @@ st.markdown(
     """
     <div class="hero-card">
         <div class="hero-main">
-            <h1 class="hero-title">Credit<br/>Risk Scoring</h1>
+            <h1 class="hero-title">Credit Risk Scoring</h1>
             <div class="hero-copy">
                 Simulasi scoring calon debitur berbasis Machine Learning. Isi profil calon kreditur,
                 sistem akan menghitung estimasi risiko gagal bayar, kategori risiko,
