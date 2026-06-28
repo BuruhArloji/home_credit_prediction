@@ -145,9 +145,30 @@ with st.form("credit_application_form"):
         annuity = st.number_input("Anuitas / cicilan tahunan", min_value=1_000, max_value=1_000_000, value=30_000, step=1_000)
         goods_price = st.number_input("Harga barang", min_value=10_000, max_value=5_000_000, value=600_000, step=10_000)
     with col6:
-        ext_source_1 = st.slider("External score 1", 0.0, 1.0, 0.50, 0.01)
-        ext_source_2 = st.slider("External score 2", 0.0, 1.0, 0.50, 0.01)
-        ext_source_3 = st.slider("External score 3", 0.0, 1.0, 0.50, 0.01)
+        ext_source_1 = st.slider(
+            "Skor eksternal profil kredit",
+            0.0,
+            1.0,
+            0.50,
+            0.01,
+            help="Skor dari sumber data eksternal. Makin tinggi biasanya menunjukkan profil risiko yang lebih baik.",
+        )
+        ext_source_2 = st.slider(
+            "Skor eksternal perilaku finansial",
+            0.0,
+            1.0,
+            0.50,
+            0.01,
+            help="Ringkasan sinyal finansial eksternal. Nilai rendah dapat meningkatkan estimasi risiko gagal bayar.",
+        )
+        ext_source_3 = st.slider(
+            "Skor eksternal stabilitas pembayaran",
+            0.0,
+            1.0,
+            0.50,
+            0.01,
+            help="Proxy stabilitas/kelayakan dari sumber eksternal. Makin tinggi biasanya lebih aman.",
+        )
 
     st.subheader("3. Ringkasan Histori Kredit")
     col7, col8, col9 = st.columns(3)
