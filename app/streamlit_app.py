@@ -16,7 +16,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
 
     .score-grid {
         display: grid;
@@ -64,9 +64,6 @@ st.markdown(
             grid-template-columns: 1fr;
         }
     }
-
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
     :root {
         --ink: #282b3a;
         --muted: #687082;
@@ -78,7 +75,7 @@ st.markdown(
     }
 
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Manrope', sans-serif;
     }
 
     .stApp {
@@ -164,10 +161,11 @@ st.markdown(
 
     .hero-title {
         color: var(--ink);
-        font-size: clamp(2.25rem, 5vw, 4.4rem);
-        line-height: 0.96;
-        font-weight: 800;
-        letter-spacing: -0.075em;
+        font-family: 'Space Grotesk', 'Manrope', sans-serif;
+        font-size: clamp(2.35rem, 5vw, 4.25rem);
+        line-height: 0.94;
+        font-weight: 700;
+        letter-spacing: -0.055em;
         margin: 0;
         max-width: 760px;
     }
