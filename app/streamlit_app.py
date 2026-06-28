@@ -404,6 +404,23 @@ def pct(value: float) -> str:
     return f"{value:.2%}"
 
 
+def parse_rupiah(value: str) -> float:
+    cleaned = str(value).strip().replace("Rp", "").replace("rp", "").replace(" ", "")
+    cleaned = cleaned.replace(".", "").replace(",", "")
+    if not cleaned:
+        return 0.0
+    return float(cleaned)
+
+
+def rupiah_text(label: str, value: int, help_text: str | None = None) -> float:
+    raw = st.text_input(label, value=f"{value:,.0f}".replace(",", "."), help=help_text)
+    try:
+        return parse_rupiah(raw)
+    except ValueError:
+        st.warning(f"Format {label} belum valid. Gunakan contoh: 5.000.000")
+        return float(value)
+
+
 st.markdown(
     """
     <div class="hero-card">
@@ -470,12 +487,10 @@ with st.form("credit_application_form"):
     with col1:
         age = st.slider("Usia", 18, 70, 35)
         gender = st.selectbox("Gender", ["F", "M"])
-        income_idr = st.number_input(
+        income_idr = rupiah_text(
             "Pendapatan tahunan (Rp)",
-            min_value=1_000_000,
-            max_value=5_000_000_000,
             value=90_000_000,
-            step=5_000_000,
+            help_text="Contoh format: 90.000.000",
         )
         children = st.number_input("Jumlah anak", min_value=0, max_value=10, value=0, step=1)
     with col2:
@@ -508,27 +523,21 @@ with st.form("credit_application_form"):
     col4, col5, col6 = st.columns(3)
     with col4:
         contract_type = st.selectbox("Tipe kontrak", ["Cash loans", "Revolving loans"])
-        credit_idr = st.number_input(
+        credit_idr = rupiah_text(
             "Jumlah kredit (Rp)",
-            min_value=1_000_000,
-            max_value=5_000_000_000,
             value=300_000_000,
-            step=5_000_000,
+            help_text="Contoh format: 300.000.000",
         )
     with col5:
-        annuity_idr = st.number_input(
+        annuity_idr = rupiah_text(
             "Anuitas / cicilan tahunan (Rp)",
-            min_value=100_000,
-            max_value=1_000_000_000,
             value=15_000_000,
-            step=1_000_000,
+            help_text="Contoh format: 15.000.000",
         )
-        goods_price_idr = st.number_input(
+        goods_price_idr = rupiah_text(
             "Harga barang (Rp)",
-            min_value=1_000_000,
-            max_value=5_000_000_000,
             value=300_000_000,
-            step=5_000_000,
+            help_text="Contoh format: 300.000.000",
         )
     with col6:
         ext_source_1 = st.slider(
