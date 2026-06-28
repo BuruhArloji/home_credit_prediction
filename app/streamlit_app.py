@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from html import escape
+
 import streamlit as st
 
 from model_utils import find_artifact_dir, load_artifacts, predict_credit_risk
@@ -14,6 +16,8 @@ st.set_page_config(
 st.markdown(
     """
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
     .score-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -60,6 +64,269 @@ st.markdown(
             grid-template-columns: 1fr;
         }
     }
+
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --ink: #282b3a;
+        --muted: #687082;
+        --violet: #6147ff;
+        --blue: #4592ff;
+        --green: #22c55e;
+        --orange: #ff8a3d;
+        --pink: #ef4cae;
+    }
+
+    html, body, [class*="css"] {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .stApp {
+        background:
+            radial-gradient(circle at 8% 0%, rgba(97, 71, 255, 0.18), transparent 24rem),
+            radial-gradient(circle at 100% 10%, rgba(69, 146, 255, 0.14), transparent 28rem),
+            linear-gradient(135deg, #f9faff 0%, #eef0ff 42%, #f8f9ff 100%);
+    }
+
+    .block-container {
+        padding-top: 2.1rem;
+        padding-bottom: 2.4rem;
+        max-width: 1240px;
+    }
+
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #6147ff 0%, #6a5cff 100%);
+    }
+
+    section[data-testid="stSidebar"] * {
+        color: #ffffff !important;
+    }
+
+    div[data-testid="stForm"] {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.78);
+        border-radius: 30px;
+        padding: 1.35rem 1.45rem 1.5rem 1.45rem;
+        box-shadow: 0 22px 60px rgba(37, 44, 92, 0.12);
+        backdrop-filter: blur(12px);
+    }
+
+    div[data-testid="stButton"] button {
+        border: 0;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--violet), var(--blue));
+        color: #ffffff;
+        font-weight: 800;
+        min-height: 3.1rem;
+        box-shadow: 0 16px 30px rgba(97, 71, 255, 0.28);
+    }
+
+    .hero-card {
+        display: grid;
+        grid-template-columns: 1.35fr 0.65fr;
+        gap: 1.2rem;
+        align-items: stretch;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-main {
+        position: relative;
+        overflow: hidden;
+        border-radius: 34px;
+        padding: 2rem;
+        background: #ffffff;
+        box-shadow: 0 24px 70px rgba(37, 44, 92, 0.13);
+    }
+
+    .hero-main:after {
+        content: "";
+        position: absolute;
+        right: -5rem;
+        top: -5rem;
+        width: 16rem;
+        height: 16rem;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(97, 71, 255, 0.18), transparent 68%);
+    }
+
+    .hero-kicker {
+        width: max-content;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        background: #f1efff;
+        color: var(--violet);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .hero-title {
+        color: var(--ink);
+        font-size: clamp(2.25rem, 5vw, 4.4rem);
+        line-height: 0.96;
+        font-weight: 800;
+        letter-spacing: -0.075em;
+        margin: 0;
+        max-width: 760px;
+    }
+
+    .hero-copy {
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.7;
+        max-width: 760px;
+        margin-top: 1rem;
+    }
+
+    .hero-side {
+        border-radius: 34px;
+        padding: 1.35rem;
+        background: linear-gradient(180deg, #f3f2ff, #ffffff);
+        box-shadow: inset 0 0 0 1px rgba(97, 71, 255, 0.08);
+    }
+
+    .mini-panel-title {
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .mix-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid rgba(104, 112, 130, 0.12);
+        color: var(--muted);
+        font-size: 0.86rem;
+    }
+
+    .dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 0.55rem;
+    }
+
+    .score-card {
+        border: 1px solid rgba(97, 71, 255, 0.08);
+        border-radius: 24px;
+        padding: 1.15rem 1.2rem;
+        background: rgba(255, 255, 255, 0.94);
+        min-height: 142px;
+        box-shadow: 0 16px 40px rgba(37, 44, 92, 0.10);
+    }
+
+    .score-label {
+        color: var(--muted);
+        font-weight: 750;
+    }
+
+    .score-value {
+        color: var(--ink);
+        font-weight: 800;
+    }
+
+    .result-shell {
+        display: grid;
+        grid-template-columns: 0.82fr 1.18fr;
+        gap: 1.15rem;
+        margin-top: 0.8rem;
+        align-items: stretch;
+    }
+
+    .credit-gauge-card, .result-detail-card {
+        border-radius: 30px;
+        background: #ffffff;
+        padding: 1.45rem;
+        box-shadow: 0 22px 56px rgba(37, 44, 92, 0.12);
+    }
+
+    .gauge-ring {
+        width: 210px;
+        height: 210px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        margin: 1rem auto 1.2rem auto;
+        background:
+            radial-gradient(circle at center, #ffffff 0 55%, transparent 56%),
+            conic-gradient(var(--violet) 0 var(--risk-angle), var(--blue) var(--risk-angle) 78%, #edf0f6 78% 100%);
+        box-shadow: 0 20px 42px rgba(97, 71, 255, 0.18);
+    }
+
+    .gauge-inner {
+        text-align: center;
+    }
+
+    .gauge-value {
+        color: var(--ink);
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 1;
+    }
+
+    .gauge-caption {
+        color: var(--green);
+        font-size: 0.9rem;
+        font-weight: 800;
+        margin-top: 0.2rem;
+    }
+
+    .section-title {
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.5rem;
+    }
+
+    .reason-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.8rem 1rem;
+        border-radius: 18px;
+        background: #f6f7ff;
+        color: var(--ink);
+        margin: 0.4rem 0.4rem 0.4rem 0;
+        font-weight: 650;
+    }
+
+    .detail-list {
+        display: grid;
+        gap: 0.65rem;
+        margin-top: 0.8rem;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.75rem 0.9rem;
+        border-radius: 16px;
+        background: #f8f9ff;
+        color: var(--muted);
+        font-weight: 650;
+    }
+
+    .detail-value {
+        color: #138a43;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-weight: 800;
+    }
+
+    @media (max-width: 980px) {
+        .hero-card, .result-shell {
+            grid-template-columns: 1fr;
+        }
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -75,10 +342,28 @@ def pct(value: float) -> str:
     return f"{value:.2%}"
 
 
-st.title("Home Credit Risk Scoring Demo")
-st.caption(
-    "Portfolio product demo berbasis Machine Learning. Aplikasi ini bersifat decision-support, "
-    "bukan sistem persetujuan kredit otomatis."
+st.markdown(
+    """
+    <div class="hero-card">
+        <div class="hero-main">
+            <div class="hero-kicker">Credit Risk Product Demo</div>
+            <h1 class="hero-title">Home Credit<br/>Risk Scoring</h1>
+            <div class="hero-copy">
+                Simulasi scoring calon debitur berbasis model V4. Isi profil calon kreditur,
+                sistem akan menghitung estimasi risiko gagal bayar, kategori risiko,
+                dan rekomendasi keputusan bisnis.
+            </div>
+        </div>
+        <div class="hero-side">
+            <div class="mini-panel-title">Model Snapshot</div>
+            <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>LightGBM</span><strong>70%</strong></div>
+            <div class="mix-row"><span><span class="dot" style="background:#4592ff"></span>Logistic Regression</span><strong>30%</strong></div>
+            <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Calibrated PD</span><strong>Isotonic</strong></div>
+            <div class="mix-row"><span><span class="dot" style="background:#ff8a3d"></span>Decision cutoff</span><strong>8.00%</strong></div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 artifact_dir = find_artifact_dir()
@@ -208,9 +493,42 @@ if submitted:
     }
 
     result = predict_credit_risk(user_input, artifacts)
+    credit_score = int(max(300, min(850, round(850 - result["pd_calibrated"] * 2500))))
+    risk_angle = f"{min(max(result['pd_calibrated'] * 420, 8), 78):.1f}%"
+    reason_html = "".join(
+        f'<div class="reason-chip">● {escape(reason)}</div>'
+        for reason in result["reason_codes"]
+    )
 
     st.divider()
-    st.subheader("Hasil Scoring")
+    st.markdown('<div class="section-title">Hasil Scoring</div>', unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="result-shell">
+            <div class="credit-gauge-card">
+                <div class="mini-panel-title">Credit Report</div>
+                <div class="gauge-ring" style="--risk-angle:{risk_angle}">
+                    <div class="gauge-inner">
+                        <div class="gauge-value">{credit_score}</div>
+                        <div class="gauge-caption">{result["risk_band"]}</div>
+                    </div>
+                </div>
+                <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>Estimasi gagal bayar</span><strong>{pct(result["pd_calibrated"])}</strong></div>
+                <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Rekomendasi</span><strong>{result["business_decision"]}</strong></div>
+            </div>
+            <div class="result-detail-card">
+                <div class="mini-panel-title">Ringkasan Keputusan</div>
+                <div class="detail-list">
+                    <div class="detail-item"><span>Skor risiko LightGBM</span><span class="detail-value">{pct(result["pd_lgbm"])}</span></div>
+                    <div class="detail-item"><span>Skor risiko Logistic Regression</span><span class="detail-value">{pct(result["pd_logreg"])}</span></div>
+                    <div class="detail-item"><span>Porsi kontribusi LightGBM</span><span class="detail-value">{artifacts.ensemble_weight_lgbm:.2f}</span></div>
+                    <div class="detail-item"><span>Batas risiko untuk approve</span><span class="detail-value">{pct(result["recommended_pd_cutoff"])}</span></div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown(
         f"""
         <div class="score-grid">
@@ -241,17 +559,15 @@ if submitted:
 
     st.progress(min(result["pd_calibrated"], 1.0), text="Estimasi peluang gagal bayar")
 
-    left, right = st.columns([1.1, 0.9])
-    with left:
-        st.markdown("#### Alasan Utama")
-        for reason in result["reason_codes"]:
-            st.write(f"- {reason}")
-    with right:
-        st.markdown("#### Detail Perhitungan")
-        st.write(f"- Skor risiko dari LightGBM: `{pct(result['pd_lgbm'])}`")
-        st.write(f"- Skor risiko dari Logistic Regression: `{pct(result['pd_logreg'])}`")
-        st.write(f"- Porsi kontribusi LightGBM: `{artifacts.ensemble_weight_lgbm:.2f}`")
-        st.write(f"- Batas risiko untuk approve: `{pct(result['recommended_pd_cutoff'])}`")
+    st.markdown(
+        f"""
+        <div class="result-detail-card" style="margin-top:1rem">
+            <div class="mini-panel-title">Alasan Utama</div>
+            {reason_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     with st.expander("Lihat fitur yang dikirim ke model"):
         non_zero = result["feature_frame"].T.reset_index()
