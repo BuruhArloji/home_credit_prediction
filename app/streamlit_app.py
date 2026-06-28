@@ -120,10 +120,10 @@ st.markdown(
 
     .hero-card {
         display: grid;
-        grid-template-columns: 1.35fr 0.65fr;
-        gap: 1.2rem;
+        grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
+        gap: 2rem;
         align-items: stretch;
-        margin-bottom: 2.2rem;
+        margin-bottom: 3rem;
     }
 
     .hero-main {
@@ -162,7 +162,7 @@ st.markdown(
     .hero-title {
         color: var(--ink);
         font-family: 'Space Grotesk', 'Manrope', sans-serif;
-        font-size: clamp(2.35rem, 5vw, 4.25rem);
+        font-size: clamp(2.2rem, 4.25vw, 3.75rem);
         line-height: 1.04;
         font-weight: 700;
         letter-spacing: -0.035em;
