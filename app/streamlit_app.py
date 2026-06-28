@@ -280,6 +280,44 @@ st.markdown(
         pointer-events: none;
     }
 
+    .threshold-label {
+        position: absolute;
+        z-index: 2;
+        padding: 0.28rem 0.48rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(104, 112, 130, 0.12);
+        box-shadow: 0 8px 22px rgba(37, 44, 92, 0.10);
+        color: var(--ink);
+        font-size: 0.62rem;
+        font-weight: 800;
+        line-height: 1.05;
+        white-space: nowrap;
+    }
+
+    .threshold-label span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.52rem;
+        font-weight: 700;
+        margin-top: 0.08rem;
+    }
+
+    .threshold-low {
+        top: 14%;
+        right: -0.35rem;
+    }
+
+    .threshold-approve {
+        right: 0.3rem;
+        bottom: 12%;
+    }
+
+    .threshold-high {
+        left: -0.55rem;
+        top: 44%;
+    }
+
     .gauge-inner {
         text-align: center;
     }
@@ -297,37 +335,6 @@ st.markdown(
         font-size: 0.9rem;
         font-weight: 800;
         margin-top: 0.2rem;
-    }
-
-    .gauge-scale {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.45rem;
-        margin: 0.2rem 0 1rem 0;
-        color: var(--muted);
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-align: center;
-    }
-
-    .scale-pill {
-        border-radius: 999px;
-        padding: 0.38rem 0.45rem;
-        background: #f6f7ff;
-        line-height: 1.15;
-    }
-
-    .scale-pill strong {
-        display: block;
-        color: var(--ink);
-        font-size: 0.78rem;
-    }
-
-    .scale-pill span {
-        display: block;
-        color: var(--muted);
-        font-size: 0.62rem;
-        margin-top: 0.08rem;
     }
 
     .section-title {
@@ -576,20 +583,14 @@ if submitted:
             <div class="credit-gauge-card">
                 <div class="mini-panel-title">Credit Report</div>
                 <div class="gauge-ring" style="--risk-angle:{risk_angle};--risk-color:{risk_color};--low-marker:{low_marker};--moderate-marker:{moderate_marker};--high-marker:{high_marker}">
+                    <div class="threshold-label threshold-low">3%<span>rendah</span></div>
+                    <div class="threshold-label threshold-approve">8%<span>approve</span></div>
+                    <div class="threshold-label threshold-high">15%+<span>tinggi</span></div>
                     <div class="gauge-inner">
                         <div class="gauge-value">{pct(result["pd_calibrated"])}</div>
                         <div class="gauge-caption" style="color:{risk_color}">{result["risk_band"]}</div>
                     </div>
                 </div>
-                <div class="gauge-scale">
-                    <div class="scale-pill"><strong>0%</strong><span>minimum</span></div>
-                    <div class="scale-pill"><strong>3%</strong><span>batas rendah</span></div>
-                    <div class="scale-pill"><strong>8%</strong><span>batas approve</span></div>
-                    <div class="scale-pill"><strong>15%+</strong><span>risiko tinggi</span></div>
-                </div>
-                <div class="score-help" style="text-align:center;margin-bottom:0.7rem">Skala ring: 0-20% estimasi gagal bayar</div>
-                <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>Estimasi gagal bayar</span><strong>{pct(result["pd_calibrated"])}</strong></div>
-                <div class="mix-row"><span><span class="dot" style="background:#22c55e"></span>Rekomendasi</span><strong>{result["business_decision"]}</strong></div>
             </div>
             <div class="result-detail-card">
                 <div class="mini-panel-title">Ringkasan Keputusan</div>
