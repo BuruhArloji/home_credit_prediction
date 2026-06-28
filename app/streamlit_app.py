@@ -114,59 +114,55 @@ st.markdown(
         backdrop-filter: none;
     }
 
-    .input-section-card {
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(226, 230, 244, 0.9);
-        border-radius: 24px;
-        padding: 1.2rem 1.2rem 1.35rem 1.2rem;
-        margin: 1rem 0 1.1rem 0;
-        box-shadow: 0 14px 34px rgba(37, 44, 92, 0.08);
-    }
-
-    .input-section-title {
-        color: var(--ink);
-        font-size: 1.18rem;
-        font-weight: 800;
-        letter-spacing: -0.035em;
-        margin-bottom: 0.15rem;
-    }
-
-    .input-section-subtitle {
-        color: var(--muted);
-        font-size: 0.86rem;
-        margin-bottom: 0.85rem;
-    }
-
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        border-radius: 24px !important;
-        border: 1px solid rgba(255, 255, 255, 0.78) !important;
-        background: rgba(255, 255, 255, 0.92);
-        box-shadow: 0 22px 56px rgba(37, 44, 92, 0.13), 0 4px 12px rgba(97, 71, 255, 0.06);
-        margin-bottom: 1.35rem;
-        padding: 0.35rem;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
     }
 
-    div[data-testid="stButton"] button {
+    div[data-testid="stForm"] div[data-testid="stVerticalBlock"]:has(> div[data-testid="stElementContainer"] h3) {
+        border: 0 !important;
+        border-radius: 30px !important;
+        background: #ffffff !important;
+        box-shadow: 0 24px 58px rgba(37, 44, 92, 0.12), 0 8px 20px rgba(97, 71, 255, 0.06) !important;
+        margin: 1.45rem 0 1.25rem 0 !important;
+        padding: 1.3rem 1.35rem 1.45rem 1.35rem !important;
+        overflow: visible !important;
+    }
+
+    div[data-testid="stForm"] div[data-testid="stVerticalBlock"]:has(> div[data-testid="stElementContainer"] h3) > div {
+        border: 0 !important;
+        background: transparent !important;
+    }
+
+    div[data-testid="stButton"] button,
+    div[data-testid="stFormSubmitButton"] button,
+    button[data-testid="stBaseButton-secondaryFormSubmit"] {
         border: 0;
         border-radius: 999px;
-        background: linear-gradient(135deg, #6147ff 0%, #4592ff 48%, #22c55e 115%);
+        background: linear-gradient(135deg, #6147ff 0%, #4592ff 48%, #22c55e 115%) !important;
         color: #ffffff !important;
         font-weight: 800;
         min-height: 3.35rem;
-        box-shadow: 0 18px 36px rgba(97, 71, 255, 0.34), 0 8px 18px rgba(69, 146, 255, 0.18);
+        box-shadow: 0 18px 36px rgba(97, 71, 255, 0.34), 0 8px 18px rgba(69, 146, 255, 0.18) !important;
         letter-spacing: -0.01em;
         transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
 
-    div[data-testid="stButton"] button:hover {
+    div[data-testid="stButton"] button:hover,
+    div[data-testid="stFormSubmitButton"] button:hover,
+    button[data-testid="stBaseButton-secondaryFormSubmit"]:hover {
         transform: translateY(-2px);
         filter: saturate(1.08);
-        box-shadow: 0 22px 42px rgba(97, 71, 255, 0.42), 0 10px 22px rgba(69, 146, 255, 0.22);
+        box-shadow: 0 22px 42px rgba(97, 71, 255, 0.42), 0 10px 22px rgba(69, 146, 255, 0.22) !important;
     }
 
-    div[data-testid="stButton"] button:active {
+    div[data-testid="stButton"] button:active,
+    div[data-testid="stFormSubmitButton"] button:active,
+    button[data-testid="stBaseButton-secondaryFormSubmit"]:active {
         transform: translateY(0);
-        box-shadow: 0 12px 26px rgba(97, 71, 255, 0.30);
+        box-shadow: 0 12px 26px rgba(97, 71, 255, 0.30) !important;
     }
 
     .hero-card {
