@@ -312,8 +312,22 @@ st.markdown(
 
     .scale-pill {
         border-radius: 999px;
-        padding: 0.35rem 0.45rem;
+        padding: 0.38rem 0.45rem;
         background: #f6f7ff;
+        line-height: 1.15;
+    }
+
+    .scale-pill strong {
+        display: block;
+        color: var(--ink);
+        font-size: 0.78rem;
+    }
+
+    .scale-pill span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.62rem;
+        margin-top: 0.08rem;
     }
 
     .section-title {
@@ -563,10 +577,10 @@ if submitted:
                     </div>
                 </div>
                 <div class="gauge-scale">
-                    <div class="scale-pill">0%</div>
-                    <div class="scale-pill">3%</div>
-                    <div class="scale-pill">8%</div>
-                    <div class="scale-pill">15%+</div>
+                    <div class="scale-pill"><strong>0%</strong><span>minimum</span></div>
+                    <div class="scale-pill"><strong>3%</strong><span>batas rendah</span></div>
+                    <div class="scale-pill"><strong>8%</strong><span>batas approve</span></div>
+                    <div class="scale-pill"><strong>15%+</strong><span>risiko tinggi</span></div>
                 </div>
                 <div class="score-help" style="text-align:center;margin-bottom:0.7rem">Skala ring: 0-20% estimasi gagal bayar</div>
                 <div class="mix-row"><span><span class="dot" style="background:#6147ff"></span>Estimasi gagal bayar</span><strong>{pct(result["pd_calibrated"])}</strong></div>
