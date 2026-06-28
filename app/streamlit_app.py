@@ -143,7 +143,8 @@ st.markdown(
         border-radius: 999px;
         background: linear-gradient(135deg, #6147ff 0%, #4592ff 48%, #22c55e 115%) !important;
         color: #ffffff !important;
-        font-weight: 800;
+        font-size: 1.08rem !important;
+        font-weight: 900 !important;
         min-height: 3.35rem;
         box-shadow: 0 18px 36px rgba(97, 71, 255, 0.34), 0 8px 18px rgba(69, 146, 255, 0.18) !important;
         letter-spacing: -0.01em;
