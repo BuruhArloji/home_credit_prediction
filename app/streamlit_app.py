@@ -613,7 +613,7 @@ if submitted:
     )
     st.markdown(
         f"""
-        <div class="result-detail-card" style="margin-top:1rem">
+        <div class="result-detail-card" style="margin-top:1rem;margin-bottom:1.25rem">
             <div class="mini-panel-title">Alasan Utama</div>
             {reason_html}
         </div>
