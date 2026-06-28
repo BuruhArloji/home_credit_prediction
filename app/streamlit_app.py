@@ -1,15 +1,21 @@
 from __future__ import annotations
 
 from html import escape
+from pathlib import Path
 
 import streamlit as st
+from PIL import Image
 
 from model_utils import find_artifact_dir, load_artifacts, predict_credit_risk
 
 
+APP_DIR = Path(__file__).resolve().parent
+FAVICON_PATH = APP_DIR / "assets" / "wallet_favicon.png"
+PAGE_ICON = Image.open(FAVICON_PATH) if FAVICON_PATH.exists() else "💳"
+
 st.set_page_config(
     page_title="Credit Risk Scoring Demo",
-    page_icon="🏦",
+    page_icon=PAGE_ICON,
     layout="wide",
 )
 
@@ -100,12 +106,12 @@ st.markdown(
     }
 
     div[data-testid="stForm"] {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.78);
-        border-radius: 30px;
-        padding: 1.35rem 1.45rem 1.5rem 1.45rem;
-        box-shadow: 0 22px 60px rgba(37, 44, 92, 0.12);
-        backdrop-filter: blur(12px);
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        backdrop-filter: none;
     }
 
     .input-section-card {
@@ -133,20 +139,34 @@ st.markdown(
 
     div[data-testid="stVerticalBlockBorderWrapper"] {
         border-radius: 24px !important;
-        border-color: rgba(226, 230, 244, 0.95) !important;
-        background: rgba(255, 255, 255, 0.78);
-        box-shadow: 0 14px 34px rgba(37, 44, 92, 0.07);
-        margin-bottom: 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.78) !important;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 22px 56px rgba(37, 44, 92, 0.13), 0 4px 12px rgba(97, 71, 255, 0.06);
+        margin-bottom: 1.35rem;
+        padding: 0.35rem;
     }
 
     div[data-testid="stButton"] button {
         border: 0;
         border-radius: 999px;
-        background: linear-gradient(135deg, var(--violet), var(--blue));
-        color: #ffffff;
+        background: linear-gradient(135deg, #6147ff 0%, #4592ff 48%, #22c55e 115%);
+        color: #ffffff !important;
         font-weight: 800;
-        min-height: 3.1rem;
-        box-shadow: 0 16px 30px rgba(97, 71, 255, 0.28);
+        min-height: 3.35rem;
+        box-shadow: 0 18px 36px rgba(97, 71, 255, 0.34), 0 8px 18px rgba(69, 146, 255, 0.18);
+        letter-spacing: -0.01em;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    div[data-testid="stButton"] button:hover {
+        transform: translateY(-2px);
+        filter: saturate(1.08);
+        box-shadow: 0 22px 42px rgba(97, 71, 255, 0.42), 0 10px 22px rgba(69, 146, 255, 0.22);
+    }
+
+    div[data-testid="stButton"] button:active {
+        transform: translateY(0);
+        box-shadow: 0 12px 26px rgba(97, 71, 255, 0.30);
     }
 
     .hero-card {
